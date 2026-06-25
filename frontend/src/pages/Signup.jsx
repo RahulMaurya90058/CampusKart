@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import API from "../api/api";
 import AuthNavbar from "../components/AuthNavbar";
 import Footer from "../components/Footer";
+import { toast } from "react-toastify";
 
 function Signup() {
   const navigate = useNavigate();
@@ -34,11 +35,11 @@ function Signup() {
 
       if (res.data.success) {
         localStorage.setItem("email", formData.email);
-        alert("OTP sent successfully");
+        toast.success("OTP sent successfully");
         navigate("/verify-otp");
       }
     } catch (error) {
-      alert(error.response?.data?.message || "Something went wrong");
+      toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

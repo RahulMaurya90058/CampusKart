@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import API from "../api/api";
 import AuthNavbar from "../components/AuthNavbar";
 import Footer from "../components/Footer";
+import { toast } from "react-toastify";
 
 function Login() {
   const navigate = useNavigate();
@@ -29,12 +30,12 @@ function Login() {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
-        alert("Login Successful");
+        toast.success("Login Successful");
 
         navigate("/");
       }
     } catch (error) {
-      alert(error.response?.data?.message || "Login Failed");
+      toast.error(error.response?.data?.message || "Login Failed");
     }
   };
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import API from "../api/api";
 import AuthNavbar from "../components/AuthNavbar";
 import Footer from "../components/Footer";
+import { toast } from "react-toastify";
 
 function OtpVerification() {
   const [otp, setOtp] = useState("");
@@ -18,12 +19,12 @@ function OtpVerification() {
       });
 
       if (res.data.success) {
-        alert("Account verified successfully");
+        toast.success("Account verified successfully");
         localStorage.removeItem("email");
         navigate("/login");
       }
     } catch (error) {
-      alert(error.response?.data?.message || "Invalid OTP");
+      toast.error(error.response?.data?.message || "Invalid OTP");
     }
   };
 

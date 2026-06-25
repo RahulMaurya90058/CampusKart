@@ -2,6 +2,7 @@ import { useState } from "react";
 import API from "../api/api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { toast } from "react-toastify";
 
 function Sell() {
   const [formData, setFormData] = useState({
@@ -44,7 +45,7 @@ function Sell() {
         },
       });
 
-      alert(res.data.message);
+      toast.success(res.data.message);
 
       setFormData({
         title: "",
@@ -55,7 +56,7 @@ function Sell() {
 
       setImage(null);
     } catch (error) {
-      alert(error.response?.data?.message || "Something went wrong");
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
