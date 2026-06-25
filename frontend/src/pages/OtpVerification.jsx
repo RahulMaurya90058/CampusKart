@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/api";
+import AuthNavbar from "../components/AuthNavbar";
+import Footer from "../components/Footer";
 
 function OtpVerification() {
   const [otp, setOtp] = useState("");
@@ -26,6 +28,7 @@ function OtpVerification() {
   };
 
   return (
+    <><AuthNavbar />
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
         <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">
@@ -52,6 +55,8 @@ function OtpVerification() {
         </button>
       </div>
     </div>
+    <Footer />
+    </>
   );
 }
 

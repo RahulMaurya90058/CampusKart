@@ -1,5 +1,7 @@
 import { useState } from "react";
 import API from "../api/api";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 function Sell() {
   const [formData, setFormData] = useState({
@@ -58,6 +60,7 @@ function Sell() {
   };
 
   return (
+    <><Navbar />
     <div className="min-h-screen bg-gray-100 flex justify-center items-center p-6">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-lg">
         <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">
@@ -120,6 +123,8 @@ function Sell() {
         </form>
       </div>
     </div>
+    <Footer />
+    </>
   );
 }
 

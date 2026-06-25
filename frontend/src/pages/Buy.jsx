@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../api/api";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 function Buy() {
   const [products, setProducts] = useState([]);
@@ -18,6 +20,7 @@ function Buy() {
   };
 
   return (
+    <><Navbar />
     <div className="min-h-screen bg-gray-100 p-8">
       <h1 className="text-4xl font-bold text-center text-blue-600 mb-10">
         Buy Products
@@ -65,6 +68,8 @@ function Buy() {
         ))}
       </div>
     </div>
+    <Footer />
+    </>
   );
 }
 
