@@ -10,7 +10,7 @@ function OtpVerification() {
     try {
       const email = localStorage.getItem("email");
 
-      const res = await API.post("/verify-otp", {
+      const res = await API.post("/users/verify-otp", {
         email,
         otp,
       });

@@ -21,7 +21,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await API.post("/login", formData);
+      const res = await API.post("/users/login", formData);
 
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);

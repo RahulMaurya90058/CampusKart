@@ -7,8 +7,9 @@ function Sell() {
     description: "",
     price: "",
     category: "",
-    image: "",
   });
+
+  const [image, setImage] = useState(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -23,9 +24,21 @@ function Sell() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await API.post("/products/add", formData, {
+      const data = new FormData();
+
+      data.append("title", formData.title);
+      data.append("description", formData.description);
+      data.append("price", formData.price);
+      data.append("category", formData.category);
+
+      if (image) {
+        data.append("image", image);
+      }
+
+      const res = await API.post("/products/add", data, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       });
 
@@ -36,8 +49,9 @@ function Sell() {
         description: "",
         price: "",
         category: "",
-        image: "",
       });
+
+      setImage(null);
     } catch (error) {
       alert(error.response?.data?.message || "Something went wrong");
     }
@@ -91,11 +105,9 @@ function Sell() {
           />
 
           <input
-            type="text"
-            name="image"
-            placeholder="Image URL"
-            value={formData.image}
-            onChange={handleChange}
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
             className="w-full border rounded-lg px-4 py-3"
           />
 

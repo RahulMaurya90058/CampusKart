@@ -22,7 +22,7 @@ function Signup() {
     e.preventDefault();
 
     try {
-      const res = await API.post("/signup", formData);
+      const res = await API.post("/users/signup", formData);
 
       if (res.data.success) {
         localStorage.setItem("email", formData.email);
