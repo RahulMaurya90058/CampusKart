@@ -3,16 +3,25 @@ import API from "../api/api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import LoadingSkeleton from "../components/LoadingSkeleton";
+import ProductCard from "../components/ProductCard";
+import { FiSearch } from "react-icons/fi";
 
 function Buy() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("All");
 
-const filteredProducts = products.filter((product) =>
-  product.title.toLowerCase().includes(search.toLowerCase()) ||
-  product.category.toLowerCase().includes(search.toLowerCase())
-);
+  const categories = [
+    "All",
+    "Electronics",
+    "Books",
+    "Furniture",
+    "Cycle",
+    "Mobile",
+    "Laptop",
+    "Notes",
+  ];
 
   useEffect(() => {
     fetchProducts();
@@ -32,6 +41,18 @@ const filteredProducts = products.filter((product) =>
     }
   };
 
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
+      product.title.toLowerCase().includes(search.toLowerCase()) ||
+      product.category.toLowerCase().includes(search.toLowerCase());
+
+    const matchesCategory =
+  category === "All" ||
+  product.category.toLowerCase() === category.toLowerCase();
+
+    return matchesSearch && matchesCategory;
+  });
+
   return (
     <>
       <Navbar />
@@ -41,75 +62,56 @@ const filteredProducts = products.filter((product) =>
           Buy Products
         </h1>
 
-        <div className="flex justify-center mb-8">
-  <input
-    type="text"
-    placeholder="Search products..."
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-    className="w-full max-w-lg border rounded-lg px-4 py-3 outline-none focus:border-blue-600"
-  />
-</div>
+        {/* Search */}
+        <div className="flex justify-center mb-10">
+          <div className="relative w-full max-w-2xl">
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-xl" />
+
+            <input
+              type="text"
+              placeholder="Search products by name or category..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-white border border-gray-300 rounded-full py-4 pl-12 pr-5 shadow-md outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200 transition"
+            />
+          </div>
+        </div>
+
+        {/* Category Filter */}
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
+          {categories.map((item) => (
+            <button
+              key={item}
+              onClick={() => setCategory(item)}
+              className={`px-5 py-2 rounded-full font-medium transition ${
+                category === item
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-gray-700 border hover:bg-blue-100"
+              }`}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
 
         {/* Loading */}
-        {/* {loading && (
-          <div className="flex justify-center items-center h-60">
-            <p className="text-2xl font-semibold text-blue-600 animate-pulse">
-              Loading Products...
-            </p>
-          </div>
-        )} */}
-
         {loading && <LoadingSkeleton />}
 
         {/* No Products */}
-        {!loading && products.length === 0 && (
+        {!loading && filteredProducts.length === 0 && (
           <div className="text-center text-2xl text-gray-500 mt-20">
             No Products Found
           </div>
         )}
 
         {/* Products */}
-        {!loading && products.length > 0 && (
-          <div className="grid md:grid-cols-3 gap-6">
+        {!loading && filteredProducts.length > 0 && (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product) => (
-              <div
+              <ProductCard
                 key={product._id}
-                className="bg-white shadow-lg rounded-xl p-5 hover:shadow-xl duration-300"
-              >
-                <img
-                  src={
-                    product.image ||
-                    "https://via.placeholder.com/300x200"
-                  }
-                  alt={product.title}
-                  className="w-full h-52 object-cover rounded-lg"
-                />
-
-                <h2 className="text-2xl font-bold mt-4">
-                  {product.title}
-                </h2>
-
-                <p className="text-gray-500 mt-2">
-                  {product.description}
-                </p>
-
-                <p className="text-xl text-green-600 font-bold mt-3">
-                  ₹{product.price}
-                </p>
-
-                <p className="text-sm text-gray-600 mt-2">
-                  Category: {product.category}
-                </p>
-
-                <p className="text-sm text-blue-600 mt-2">
-                  Seller: {product.seller?.name}
-                </p>
-
-                <button className="w-full bg-blue-600 text-white py-3 rounded-lg mt-5 hover:bg-blue-700">
-                  View Details
-                </button>
-              </div>
+                product={product}
+              />
             ))}
           </div>
         )}
