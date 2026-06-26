@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FiUser } from "react-icons/fi";
 import { toast } from "react-toastify";
 
@@ -10,15 +10,17 @@ import LoadingSkeleton from "../components/LoadingSkeleton";
 import { FiShoppingCart, FiMessageCircle } from "react-icons/fi";
 
 function ProductDetails() {
+
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProduct();
-  }, []);
+  fetchProduct();
+}, [id]);
 
   const fetchProduct = async () => {
     try {
@@ -158,11 +160,15 @@ function ProductDetails() {
   </h2>
 
   <div className="grid md:grid-cols-4 gap-6">
+
     {relatedProducts.map((item) => (
+
       <div
-        key={item._id}
-        className="bg-white rounded-xl shadow-md p-4 hover:shadow-xl transition"
-      >
+  key={item._id}
+  onClick={() => navigate(`/product/${item._id}`)}
+  className="bg-white rounded-xl shadow-md p-4 hover:shadow-xl hover:-translate-y-2 transition duration-300 cursor-pointer"
+>
+
         <img
           src={
             item.image ||

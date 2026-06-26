@@ -7,6 +7,8 @@ import ProductCard from "../components/ProductCard";
 import { FiSearch } from "react-icons/fi";
 
 function Buy() {
+    
+    const [wishlist, setWishlist] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -24,8 +26,9 @@ function Buy() {
   ];
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+  fetchProducts();
+  fetchWishlist();
+}, []);
 
   const fetchProducts = async () => {
     try {
@@ -41,6 +44,28 @@ function Buy() {
     }
   };
 
+
+  const fetchWishlist = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    if (!token) return;
+
+    const res = await API.get("/wishlist", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    setWishlist(
+      res.data.wishlist.map((item) => item.product._id)
+    );
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
       product.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -52,6 +77,48 @@ function Buy() {
 
     return matchesSearch && matchesCategory;
   });
+
+  const handleWishlist = async (productId) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Please login first");
+      return;
+    }
+
+    if (wishlist.includes(productId)) {
+
+      await API.delete(`/wishlist/remove/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setWishlist(
+        wishlist.filter((id) => id !== productId)
+      );
+
+    } else {
+
+      await API.post(
+        "/wishlist/add",
+        { productId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setWishlist([...wishlist, productId]);
+
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   return (
     <>
@@ -109,9 +176,11 @@ function Buy() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product) => (
               <ProductCard
-                key={product._id}
-                product={product}
-              />
+  key={product._id}
+  product={product}
+  wishlist={wishlist}
+  handleWishlist={handleWishlist}
+/>
             ))}
           </div>
         )}

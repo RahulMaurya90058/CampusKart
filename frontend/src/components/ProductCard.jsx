@@ -1,7 +1,12 @@
-import { FiUser, FiArrowRight } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { FiUser, FiArrowRight, FiHeart } from "react-icons/fi";
 
-function ProductCard({ product }) {
+function ProductCard({ 
+    product,
+  wishlist = [],
+  handleWishlist,
+  showWishlist = true, 
+}) {
   const navigate = useNavigate();
 
   return (
@@ -23,9 +28,30 @@ function ProductCard({ product }) {
       <div className="p-5">
 
         {/* Category */}
-        <span className="inline-block bg-blue-100 text-blue-600 text-xs font-semibold px-3 py-1 rounded-full">
-          {product.category}
-        </span>
+       <div className="flex justify-between items-center mt-3">
+  <span className="inline-block bg-blue-100 text-blue-600 text-xs font-semibold px-3 py-1 rounded-full">
+    {product.category}
+  </span>
+
+  {showWishlist && (
+  <button
+    onClick={() => handleWishlist(product._id)}
+    className={`text-2xl transition ${
+      wishlist.includes(product._id)
+        ? "text-red-500"
+        : "text-gray-400 hover:text-red-500"
+    }`}
+  >
+    <FiHeart
+      fill={
+        wishlist.includes(product._id)
+          ? "currentColor"
+          : "none"
+      }
+    />
+  </button>
+)}
+</div>
 
         {/* Title */}
         <h2 className="text-2xl font-bold mt-3 capitalize">

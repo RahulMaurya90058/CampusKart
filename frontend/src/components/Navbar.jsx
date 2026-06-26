@@ -39,6 +39,13 @@ function Navbar() {
           </Link>
 
           <Link
+  to="/wishlist"
+  className="hover:text-red-500"
+>
+  ❤️ Wishlist
+</Link>
+
+          <Link
   to="/my-products"
   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
 >

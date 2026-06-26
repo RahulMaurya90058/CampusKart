@@ -10,6 +10,7 @@ import OtpVerification from "./pages/OtpVerification";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MyProducts from "./pages/MyProducts";
 import EditProduct from "./pages/EditProduct";
+import Wishlist from "./pages/Wishlist";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/my-products" element={<MyProducts />} />
         <Route path="/edit-product/:id" element={<EditProduct />} />
+        <Route path="/wishlist" element={<Wishlist />} />
       </Routes>
     </BrowserRouter>
   );
