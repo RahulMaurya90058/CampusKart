@@ -17,7 +17,12 @@ router.get("/related/:category/:id", getRelatedProducts);
 
 router.get("/:id", getProductById);
 
-router.put("/update/:id", authMiddleware, updateProduct);
+router.put(
+  "/update/:id",
+  authMiddleware,
+  upload.single("image"),
+  updateProduct
+);
 
 router.delete("/delete/:id", authMiddleware, deleteProduct);
 
