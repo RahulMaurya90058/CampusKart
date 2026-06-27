@@ -38,6 +38,10 @@ function Navbar() {
             Sell
           </Link>
 
+          <Link to="/about">
+  About
+</Link>
+
           <Link
   to="/wishlist"
   className="hover:text-red-500"

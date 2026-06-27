@@ -1,24 +1,160 @@
+import { useNavigate } from "react-router-dom";
+import { FaArrowRight, FaShoppingBag } from "react-icons/fa";
+import { useState } from "react";
+
 function Hero() {
+  const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [search, setSearch] = useState("");
+
   return (
-    <section className="min-h-screen bg-gradient-to-r from-blue-50 to-purple-50 flex flex-col justify-center items-center text-center px-6">
-      <h1 className="text-6xl font-bold text-gray-800 mb-6">
-        Buy & Sell Products with CampusKart
-      </h1>
+    <section className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white min-h-[90vh] flex items-center">
 
-      <p className="text-xl text-gray-600 max-w-2xl mb-8">
-        A trusted marketplace for students to buy and sell books, gadgets,
-        laptops, cycles, and much more.
-      </p>
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center px-6 py-16">
 
-      <div className="flex gap-6">
-        <button className="bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700">
-          Buy Now
-        </button>
+        {/* Left */}
 
-        <button className="bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700">
-          Sell Product
-        </button>
+        <div>
+
+          <span className="inline-flex items-center gap-2 bg-yellow-400 text-black px-5 py-2 rounded-full font-semibold shadow-lg">
+  🚀 India's Trusted Student Marketplace
+</span>
+
+          <h1 className="text-5xl lg:text-7xl font-bold mt-6 leading-tight">
+
+            Buy, Sell & Exchange
+
+            <span className="block text-yellow-300">
+
+              with CampusKart
+
+            </span>
+
+          </h1>
+
+          <p className="mt-8 text-lg text-blue-100 leading-8 max-w-xl">
+
+            Buy books, laptops, mobiles, cycles and many more products
+            from students. Sell your unused items quickly and securely.
+
+          </p>
+
+          {/* Search */}
+
+          <div className="mt-8 flex bg-white rounded-xl overflow-hidden shadow-lg">
+
+            <input
+  type="text"
+  placeholder="Search Products..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  className="flex-1 px-5 py-4 text-gray-700 outline-none"
+/>
+
+        <button
+  onClick={() => {
+    if (!search.trim()) {
+      navigate("/buy");
+      return;
+    }
+
+    navigate(`/buy?search=${encodeURIComponent(search)}`);
+  }}
+  className="bg-yellow-400 px-6 text-black font-semibold hover:bg-yellow-300"
+>
+  Search
+</button>
+
+          </div>
+
+          {/* Buttons */}
+
+          <div className="flex flex-wrap gap-5 mt-8">
+
+            <button
+              onClick={() => navigate("/buy")}
+              className="bg-white text-blue-700 px-8 py-4 rounded-xl font-semibold flex items-center gap-3 hover:scale-105 duration-300"
+            >
+              <FaShoppingBag />
+
+              Browse Products
+
+            </button>
+
+            <button
+              onClick={() => {
+                if (user) {
+                  navigate("/sell");
+                } else {
+                  navigate("/login");
+                }
+              }}
+              className="border-2 border-white px-8 py-4 rounded-xl flex items-center gap-3 hover:bg-white hover:text-blue-700 duration-300"
+            >
+              Start Selling
+
+              <FaArrowRight />
+
+            </button>
+
+          </div>
+
+          {/* Stats */}
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+
+            <div>
+              <h2 className="text-3xl font-bold">500+</h2>
+              <p className="text-blue-100">Products</p>
+            </div>
+
+            <div>
+              <h2 className="text-3xl font-bold">200+</h2>
+              <p className="text-blue-100">Students</p>
+            </div>
+
+            <div>
+              <h2 className="text-3xl font-bold">100+</h2>
+              <p className="text-blue-100">Orders</p>
+            </div>
+
+            <div>
+              <h2 className="text-3xl font-bold">100%</h2>
+              <p className="text-blue-100">Secure</p>
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* Right */}
+<div className="hidden lg:flex justify-center relative">
+
+  <img
+    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900"
+    alt="CampusKart"
+    className="rounded-3xl shadow-2xl w-full max-w-lg"
+  />
+
+  {/* Floating Card 1 */}
+
+  <div className="absolute top-6 -left-8 bg-white text-black p-4 rounded-2xl shadow-xl">
+    <h3 className="font-bold">💻 Laptop</h3>
+    <p className="text-green-600 font-semibold">₹30,000</p>
+  </div>
+
+  {/* Floating Card 2 */}
+
+  <div className="absolute bottom-10 -right-8 bg-white text-black p-4 rounded-2xl shadow-xl">
+    <h3 className="font-bold">📚 Books</h3>
+    <p className="text-green-600 font-semibold">₹499</p>
+  </div>
+
+</div>
+
       </div>
+
     </section>
   );
 }

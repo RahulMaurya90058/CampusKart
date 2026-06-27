@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import LoadingSkeleton from "../components/LoadingSkeleton";
 import ProductCard from "../components/ProductCard";
 import { FiSearch } from "react-icons/fi";
+import { useSearchParams } from "react-router-dom";
 
 function Buy() {
     
@@ -13,6 +14,7 @@ function Buy() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
+  const [searchParams] = useSearchParams();
 
   const categories = [
     "All",
@@ -29,6 +31,16 @@ function Buy() {
   fetchProducts();
   fetchWishlist();
 }, []);
+
+useEffect(() => {
+  console.log(searchParams.get("search"));
+
+  const query = searchParams.get("search");
+
+  if (query) {
+    setSearch(query);
+  }
+}, [searchParams]);
 
   const fetchProducts = async () => {
     try {
