@@ -28,6 +28,8 @@ useEffect(() => {
   fetchProduct();
 }, [id]);
 
+
+
 const fetchProduct = async () => {
   try {
     setLoading(true);
@@ -48,6 +50,8 @@ const handleChange = (e) => {
     [e.target.name]: e.target.value,
   });
 };
+
+
 
 const handlePayment = async () => {
   if (
@@ -81,8 +85,75 @@ const handlePayment = async () => {
       },
     }
   );
+  const mongoOrderId = res.data.order._id;
 
-  toast.success(res.data.message);
+toast.success(res.data.message);
+
+const razorpayOrder = await API.post(
+  "/payment/create-order",
+  {
+    amount: product.price,
+  },
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
+ 
+ 
+
+const options = {
+  key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+
+  amount: razorpayOrder.data.order.amount,
+
+  currency: "INR",
+
+  name: "CampusKart",
+
+  description: product.title,
+
+  order_id: razorpayOrder.data.order.id,
+
+  handler: async function (response) {
+  try {
+    await API.post(
+      "/payment/verify",
+      {
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature,
+        orderId: mongoOrderId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    toast.success("Payment Successful 🎉");
+
+  } catch (error) {
+    toast.error("Payment Verification Failed");
+  }
+},
+
+  prefill: {
+    name: address.fullName,
+    email: JSON.parse(localStorage.getItem("user"))?.email,
+    contact: address.phone,
+  },
+
+  theme: {
+    color: "#2563eb",
+  },
+};
+
+const paymentObject = new window.Razorpay(options);
+
+paymentObject.open();
 
 } catch (error) {
   toast.error(
