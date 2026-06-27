@@ -12,6 +12,8 @@ import MyProducts from "./pages/MyProducts";
 import EditProduct from "./pages/EditProduct";
 import Wishlist from "./pages/Wishlist";
 import Checkout from "./pages/Checkout";
+import MyOrders from "./pages/MyOrders";
+import SellerOrders from "./pages/SellerOrders";
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
         <Route path="/edit-product/:id" element={<EditProduct />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/checkout/:id" element={<Checkout />} />
+        <Route path="/my-orders" element={<MyOrders />} />
+        <Route path="/seller-orders" element={<SellerOrders />} />
       </Routes>
     </BrowserRouter>
   );

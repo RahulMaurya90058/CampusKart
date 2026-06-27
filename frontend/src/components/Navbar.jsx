@@ -45,11 +45,27 @@ function Navbar() {
   ❤️ Wishlist
 </Link>
 
+
+
           <Link
   to="/my-products"
   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
 >
   My Products
+</Link>
+
+<Link
+  to="/my-orders"
+  className="hover:text-blue-600"
+>
+  My Orders
+</Link>
+
+<Link
+  to="/seller-orders"
+  className="hover:text-blue-600"
+>
+  Seller Orders
 </Link>
 
           {user ? (

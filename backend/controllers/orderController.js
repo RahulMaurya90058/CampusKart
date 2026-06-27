@@ -72,3 +72,58 @@ export const getMyOrders = async (req, res) => {
     });
   }
 };
+
+
+export const getSellerOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({
+      seller: req.user.id,
+    })
+      .populate("product")
+      .populate("user", "name email")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+export const updateOrderStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    order.orderStatus = status;
+
+    await order.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Order status updated",
+      order,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
