@@ -133,10 +133,13 @@ function ProductDetails() {
 
                 <div className="flex gap-4 mt-10">
 
-  <button className="flex-1 bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl flex justify-center items-center gap-2 transition">
-    <FiShoppingCart />
-    Buy Now
-  </button>
+  <button
+  onClick={() => navigate(`/checkout/${product._id}`)}
+  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl flex justify-center items-center gap-2 transition"
+>
+  <FiShoppingCart />
+  Buy Now
+</button>
 
   <button className="flex-1 border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-4 rounded-xl flex justify-center items-center gap-2 transition">
     <FiMessageCircle />

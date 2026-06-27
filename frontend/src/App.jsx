@@ -11,6 +11,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import MyProducts from "./pages/MyProducts";
 import EditProduct from "./pages/EditProduct";
 import Wishlist from "./pages/Wishlist";
+import Checkout from "./pages/Checkout";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/my-products" element={<MyProducts />} />
         <Route path="/edit-product/:id" element={<EditProduct />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/checkout/:id" element={<Checkout />} />
       </Routes>
     </BrowserRouter>
   );
