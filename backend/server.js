@@ -41,7 +41,14 @@ io.on("connection", (socket) => {
   });
 });
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://YOUR-VERCEL-DOMAIN.vercel.app"
+  ],
+  credentials: true,
+}));
 app.use(express.json());
 
 // Routes
