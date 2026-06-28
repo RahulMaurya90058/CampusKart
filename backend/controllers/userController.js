@@ -153,10 +153,10 @@ export const login = async (req, res) => {
 
     // Generate token
     const token = jwt.sign(
-      { id: user._id },
-      "campuskart_secret_key",
-      { expiresIn: "7d" }
-    );
+  { id: user._id },
+  process.env.JWT_SECRET,
+  { expiresIn: "7d" }
+);
 
     res.status(200).json({
       success: true,

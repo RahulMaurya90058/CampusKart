@@ -13,7 +13,8 @@ function Chat() {
   const [text, setText] = useState("");
 
   const user = JSON.parse(localStorage.getItem("user"));
-  const socket = io("http://localhost:5000");
+//   const socket = io("http://localhost:5000");
+const socket = io(import.meta.env.VITE_SOCKET_URL);
 
   useEffect(() => {
     fetchMessages();
