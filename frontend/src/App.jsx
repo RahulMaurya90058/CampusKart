@@ -16,6 +16,8 @@ import MyOrders from "./pages/MyOrders";
 import SellerOrders from "./pages/SellerOrders";
 import About from "./pages/About";
 import Help from "./pages/Help";
+import Chat from "./pages/Chat";
+import MyChats from "./pages/MyChats";
 
 function App() {
   return (
@@ -43,6 +45,24 @@ function App() {
         <Route path="/seller-orders" element={<SellerOrders />} />
         <Route path="/about" element={<About />} />
         <Route path="/help" element={<Help />} />
+      
+        <Route
+  path="/chat/:conversationId"
+  element={
+    <ProtectedRoute>
+      <Chat />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/my-chats"
+  element={
+    <ProtectedRoute>
+      <MyChats />
+    </ProtectedRoute>
+  }
+/>
+
       </Routes>
     </BrowserRouter>
   );

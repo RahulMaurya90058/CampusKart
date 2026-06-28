@@ -82,6 +82,39 @@ function ProductDetails() {
     }
   };
 
+  const startChat = async () => {
+  try {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.error("Please login first");
+      return;
+    }
+
+    const res = await API.post(
+      "/chat/start",
+      {
+        productId: product._id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    navigate(`/chat/${res.data.conversation._id}`);
+
+  } catch (error) {
+
+    toast.error(
+      error.response?.data?.message || "Unable to start chat"
+    );
+
+  }
+};
+
   return (
     <div className="bg-gray-50 min-h-screen flex flex-col justify-between">
       <Navbar />
@@ -157,10 +190,13 @@ function ProductDetails() {
                     Buy Now
                   </button>
 
-                  <button className="flex-1 border-2 border-gray-200 hover:border-gray-900 text-gray-700 hover:text-gray-900 font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-all">
-                    <FiMessageCircle className="text-lg" />
-                    Chat with Seller
-                  </button>
+                  <button
+  onClick={startChat}
+  className="flex-1 border-2 border-gray-200 hover:border-gray-900 text-gray-700 hover:text-gray-900 font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-all"
+>
+  <FiMessageCircle className="text-lg" />
+  Chat with Seller
+</button>
                 </div>
               </div>
             </div>

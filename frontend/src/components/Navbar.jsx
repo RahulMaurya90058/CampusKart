@@ -77,6 +77,17 @@ function Navbar() {
             >
               <FaHeart />
             </NavLink>
+
+            <NavLink
+  to="/my-chats"
+  className={({ isActive }) =>
+    isActive
+      ? "text-blue-600 font-semibold"
+      : "hover:text-blue-600"
+  }
+>
+  💬 Chats
+</NavLink>
           </div>
 
           {/* Desktop Right Side Content (User Profile Profile/Dropdown or Auth Buttons) */}
@@ -155,6 +166,8 @@ function Navbar() {
         >
           <FaHeart className="text-sm text-red-500 fill-current" /> Wishlist
         </NavLink>
+
+    
 
         {/* Dashboard Links (अगर यूजर लॉग इन है तो स्क्रॉल बार में अपने आप जुड़ जाएंगे) */}
         {user ? (
