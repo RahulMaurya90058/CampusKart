@@ -1,12 +1,34 @@
 import { useNavigate } from "react-router-dom";
 import { FaArrowRight, FaShoppingBag } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import API from "../api/api";
 
 function Hero() {
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user"));
   const [search, setSearch] = useState("");
+  const [stats, setStats] = useState({
+  products: 0,
+  users: 0,
+  orders: 0,
+  paidOrders: 0,
+});
+
+
+useEffect(() => {
+  fetchStats();
+}, []);
+
+const fetchStats = async () => {
+  try {
+    const res = await API.get("/dashboard/stats");
+
+    setStats(res.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   return (
     <section className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white min-h-[90vh] flex items-center">
@@ -102,29 +124,25 @@ function Hero() {
 
           {/* Stats */}
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+          <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center hover:scale-105 duration-300">
+  <h2 className="text-3xl font-bold">{stats.products}</h2>
+  <p className="text-blue-100">Products</p>
+</div>
 
-            <div>
-              <h2 className="text-3xl font-bold">500+</h2>
-              <p className="text-blue-100">Products</p>
-            </div>
+<div className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center hover:scale-105 duration-300">
+  <h2 className="text-3xl font-bold">{stats.users}</h2>
+  <p className="text-blue-100">Students</p>
+</div>
 
-            <div>
-              <h2 className="text-3xl font-bold">200+</h2>
-              <p className="text-blue-100">Students</p>
-            </div>
+<div className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center hover:scale-105 duration-300">
+  <h2 className="text-3xl font-bold">{stats.orders}</h2>
+  <p className="text-blue-100">Orders</p>
+</div>
 
-            <div>
-              <h2 className="text-3xl font-bold">100+</h2>
-              <p className="text-blue-100">Orders</p>
-            </div>
-
-            <div>
-              <h2 className="text-3xl font-bold">100%</h2>
-              <p className="text-blue-100">Secure</p>
-            </div>
-
-          </div>
+<div className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center hover:scale-105 duration-300">
+  <h2 className="text-3xl font-bold">{stats.paidOrders}</h2>
+  <p className="text-blue-100">Payments</p>
+</div>
 
         </div>
 

@@ -7,6 +7,7 @@ import ProductCard from "../components/ProductCard";
 import { FiSearch } from "react-icons/fi";
 import { useSearchParams } from "react-router-dom";
 
+
 function Buy() {
     
     const [wishlist, setWishlist] = useState([]);
@@ -33,12 +34,15 @@ function Buy() {
 }, []);
 
 useEffect(() => {
-  console.log(searchParams.get("search"));
-
   const query = searchParams.get("search");
+  const categoryQuery = searchParams.get("category");
 
   if (query) {
     setSearch(query);
+  }
+
+  if (categoryQuery) {
+    setCategory(categoryQuery);
   }
 }, [searchParams]);
 
