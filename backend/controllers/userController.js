@@ -12,32 +12,41 @@ import jwt from "jsonwebtoken";
 // };
 export const signup = async (req, res) => {
   try {
+    console.log("✅ Step 1: Signup API Called");
+
     const { name, email, password } = req.body;
+
+    console.log("✅ Step 2: Data Received", { name, email });
 
     let existingUser = await User.findOne({ email });
 
-    // Agar verified user hai to dobara signup nahi
+    console.log("✅ Step 3: User Checked");
+
     if (existingUser && existingUser.isVerified) {
+      console.log("❌ Verified User Already Exists");
+
       return res.status(400).json({
         success: false,
         message: "User already exists",
       });
     }
 
-    // Naya OTP
+    // Generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpiry = Date.now() + 10 * 60 * 1000;
 
+    console.log("✅ Step 4: OTP Generated", otp);
+
     if (existingUser) {
-      // Purane unverified user ko update karo
       existingUser.name = name;
       existingUser.password = password;
       existingUser.otp = otp;
       existingUser.otpExpiry = otpExpiry;
 
       await existingUser.save();
+
+      console.log("✅ Step 5: Existing User Updated");
     } else {
-      // Naya user banao
       existingUser = await User.create({
         name,
         email,
@@ -45,29 +54,33 @@ export const signup = async (req, res) => {
         otp,
         otpExpiry,
       });
+
+      console.log("✅ Step 5: New User Created");
     }
 
-    // OTP Email
+    console.log("✅ Step 6: Before sendEmail");
+
     await sendEmail(
       email,
       "CampusKart OTP Verification",
       `Your OTP is ${otp}`
     );
 
-    res.status(200).json({
+    console.log("✅ Step 7: Email Sent Successfully");
+
+    return res.status(200).json({
       success: true,
       message: "OTP sent successfully",
     });
 
   } catch (error) {
-  console.error("Signup Error:", error);
+    console.error("❌ Signup Error:", error);
 
-  return res.status(500).json({
-    success: false,
-    message: error.message,
-    stack: error.stack,
-  });
-}
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 // export const verifyOtp = async (req, res) => {
