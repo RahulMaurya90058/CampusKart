@@ -10,39 +10,44 @@ import jwt from "jsonwebtoken";
 // export const signup = async (req, res) => {
 //   res.json({ message: "Signup API Working" });
 // };
-
 export const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
+    let existingUser = await User.findOne({ email });
 
-    if (existingUser) {
+    // Agar verified user hai to dobara signup nahi
+    if (existingUser && existingUser.isVerified) {
       return res.status(400).json({
         success: false,
         message: "User already exists",
       });
     }
 
-    // Generate OTP
+    // Naya OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    // OTP expiry (10 minutes)
     const otpExpiry = Date.now() + 10 * 60 * 1000;
 
-    // Save user temporarily
-    const user = new User({
-      name,
-      email,
-      password,
-      otp,
-      otpExpiry,
-    });
+    if (existingUser) {
+      // Purane unverified user ko update karo
+      existingUser.name = name;
+      existingUser.password = password;
+      existingUser.otp = otp;
+      existingUser.otpExpiry = otpExpiry;
 
-    await user.save();
+      await existingUser.save();
+    } else {
+      // Naya user banao
+      existingUser = await User.create({
+        name,
+        email,
+        password,
+        otp,
+        otpExpiry,
+      });
+    }
 
-    // Send OTP email
+    // OTP Email
     await sendEmail(
       email,
       "CampusKart OTP Verification",
@@ -53,13 +58,16 @@ export const signup = async (req, res) => {
       success: true,
       message: "OTP sent successfully",
     });
+
   } catch (error) {
+
     console.log(error);
 
-  res.status(500).json({
-    success: false,
-    message: error.message,
+    res.status(500).json({
+      success: false,
+      message: error.message,
     });
+
   }
 };
 
