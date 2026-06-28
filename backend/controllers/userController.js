@@ -60,15 +60,14 @@ export const signup = async (req, res) => {
     });
 
   } catch (error) {
+  console.error("Signup Error:", error);
 
-    console.log(error);
-
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-
-  }
+  return res.status(500).json({
+    success: false,
+    message: error.message,
+    stack: error.stack,
+  });
+}
 };
 
 // export const verifyOtp = async (req, res) => {

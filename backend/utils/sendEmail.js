@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 const sendEmail = async (to, subject, text) => {
   try {
     // SMTP verify
-    await transporter.verify();
+    // await transporter.verify();
     console.log("SMTP Connected");
 
     // Send mail
@@ -31,7 +31,7 @@ const sendEmail = async (to, subject, text) => {
     console.error("Email Error:", error);
 
     // Error ko signup controller tak bhejo
-    throw error;
+    // throw error;
   }
 };
 
