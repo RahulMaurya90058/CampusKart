@@ -45,7 +45,7 @@ io.on("connection", (socket) => {
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://YOUR-VERCEL-DOMAIN.vercel.app"
+    "https://campus-kart-iota.vercel.app"
   ],
   credentials: true,
 }));
