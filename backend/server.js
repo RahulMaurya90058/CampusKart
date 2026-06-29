@@ -41,7 +41,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://campus-kart-iota.vercel.app/",
+      "https://campus-kart-iota.vercel.app",
     ],
     credentials: true,
   })
