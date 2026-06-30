@@ -114,7 +114,7 @@ VITE_RAZORPAY_KEY_ID=
 ### Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/CampusKart.git
+git clone https://github.com/RahulMaurya90058/CampusKart.git
 ```
 
 ### Backend
