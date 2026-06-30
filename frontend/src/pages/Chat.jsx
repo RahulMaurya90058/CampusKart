@@ -83,7 +83,7 @@ const socket = io(import.meta.env.VITE_SOCKET_URL);
 
       setText("");
 
-      setMessages((prev) => [...prev, res.data.message]);
+      // setMessages((prev) => [...prev, res.data.message]);
 
     } catch (error) {
 
@@ -114,6 +114,7 @@ const socket = io(import.meta.env.VITE_SOCKET_URL);
             </p>
 
           </div>
+          
 
           {/* Messages */}
 
@@ -158,7 +159,13 @@ const socket = io(import.meta.env.VITE_SOCKET_URL);
   : "bg-white text-gray-800 rounded-bl-none"
                     }`}
                   >
-
+                    <p
+  className={`text-xs font-semibold mb-1 ${
+    isMyMessage ? "text-blue-100" : "text-blue-600"
+  }`}
+>
+  {isMyMessage ? "You" : msg.sender?.name}
+</p>
                     <p>{msg.text}</p>
 
                     <p
